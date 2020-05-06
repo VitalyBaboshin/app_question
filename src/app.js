@@ -1,6 +1,6 @@
 import {Question} from './question';
 import {createModal, isValid} from "./utils";
-import {authWithEmailAndPassword, getAuthForm} from "./auth";
+import {authWithEmailAndPassword, getAuthForm, renderNameLogin} from "./auth";
 import './style.css'
 
 const form = document.getElementById('form');
@@ -9,6 +9,9 @@ const input = form.querySelector('#question-input');
 const submitBtn = form.querySelector('#submit');
 
 window.addEventListener('load', Question.renderList);
+// Для отображения labela авторизации
+window.addEventListener('load', renderNameLogin);
+
 form.addEventListener('submit', submitFormHadler);
 
 modalBtn.addEventListener('click', openModal);
@@ -34,6 +37,7 @@ function submitFormHadler(event) {
             submitBtn.disabled = false;
         });
     }
+
 }
 
 function openModal() {
@@ -47,13 +51,26 @@ function openModal() {
 function authFormHandler(event) {
     event.preventDefault();
 
+    const btn = event.target.querySelector('button');
     const email = event.target.querySelector('#email').value;
     const password = event.target.querySelector('#password').value;
 
+    btn.disabled = true;
     authWithEmailAndPassword(email, password)
-        .then( token => {
-
-        })
-
-
+        // .then( token => {
+        //     return Question.fetch(token);
+        // })
+        .then(Question.fetch)
+        .then(renderModalAfterAuth)
+        .then(() =>  btn.disabled = false )
+        .then(renderNameLogin)
 }
+
+function renderModalAfterAuth(content) {
+    if (typeof content === 'string') {
+        createModal('Ошибка', content);
+    } else {
+        createModal('Список вопросов', Question.listToHTML(content));
+    }
+}
+

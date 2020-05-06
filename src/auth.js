@@ -32,5 +32,53 @@ export function authWithEmailAndPassword(email, password) {
         }
     })
         .then(response => response.json())
-        .then(data => data.idToken);
+        .then(data => {
+            loginAddToLocalStorage(data.email, data.localId);
+            return data.idToken;
+        });
+}
+
+export function renderNameLogin() {
+
+    const textLogin = getEmailAndIdFromLocalStorage();
+
+    const html = isEmptyObject(textLogin)
+    ? '<p class="error">Вы не авторизовались</p>'
+    :  `<div>${textLogin.email}</div>
+        <button class="mui-btn mui-btn--flat mui-btn--primary textLoginBtn">Выйти</button>` ;
+
+    console.log(html);
+    const list = document.getElementById('login-name');
+    list.innerHTML = html;
+
+    if (!isEmptyObject(textLogin)) {
+        const el = list.querySelector('textLoginBtn');
+        console.log(el);
+        if (el) {
+            el.addEventListener('click', () => {
+                localStorage.removeItem('emailAdnLogin');
+            }, {once: true});
+        }
+    }
+}
+
+function loginAddToLocalStorage(email, localId) {
+    const obj = {
+        email,
+        localId
+    };
+    localStorage.setItem('emailAdnLogin', JSON.stringify(obj));
+}
+
+function getEmailAndIdFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('emailAdnLogin') || '[]');
+}
+
+function isEmptyObject(obj) {
+    for (let i in obj) {
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
 }

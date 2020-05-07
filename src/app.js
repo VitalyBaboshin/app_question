@@ -1,6 +1,6 @@
 import {Question} from './question';
 import {createModal, isValid} from "./utils";
-import {authWithEmailAndPassword, getAuthForm, renderNameLogin} from "./auth";
+import {authWithEmailAndPassword, getAuthForm, outBtn, renderNameLogin} from "./auth";
 import './style.css'
 
 const form = document.getElementById('form');

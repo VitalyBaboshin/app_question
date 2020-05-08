@@ -84,12 +84,20 @@ button {
 .error {
     color: red;
 }
-
+.pos {
+    padding: 20px;
+    margin: 0;
+}
 .login-name {
     text-align: center;
     position: absolute;
     bottom: 80px;
+    margin-left: 30px;
 }
 .textLoginBtn {
     background-color: white !important;
+}
+
+.cut-down {
+    display: none;
 }

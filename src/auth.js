@@ -39,29 +39,29 @@ export function authWithEmailAndPassword(email, password) {
 }
 
 export function renderNameLogin() {
-
-    const textLogin = getEmailAndIdFromLocalStorage();
-
-    const html = isEmptyObject(textLogin)
-    ? '<p class="error">Вы не авторизовались</p>'
-    :  `<div>${textLogin.email}</div>
-        <button class="mui-btn mui-btn--flat mui-btn--primary textLoginBtn">Выйти</button>` ;
-
-    console.log(html);
     const list = document.getElementById('login-name');
-    list.innerHTML = html;
+    const btn = document.getElementById('textLoginBtn');
+    generateHTMLNameLogin(list, btn, getEmailAndIdFromLocalStorage());
 
-    if (!isEmptyObject(textLogin)) {
-        const el = list.querySelector('textLoginBtn');
-        console.log(el);
-        if (el) {
-            el.addEventListener('click', () => {
-                localStorage.removeItem('emailAdnLogin');
+    //Если email и id есть в local storage тогда навешиваем событие клик на кнопку(очистка из LocalStorage)
+    if (!isEmptyObject(getEmailAndIdFromLocalStorage())) {
+        btn.classList.remove("cut-down");
+        btn.addEventListener('click', () => {
+            localStorage.removeItem('emailAdnLogin');
+            generateHTMLNameLogin(list, btn, getEmailAndIdFromLocalStorage());
             }, {once: true});
-        }
     }
 }
 
+function generateHTMLNameLogin(list, btn,  textLogin) {
+    btn.classList.add("cut-down");
+    const html = isEmptyObject(textLogin)
+        ? '<p class="error pos">Вы не авторизовались</p>'
+        :  `<div>${textLogin.email}</div>`;
+
+    list.innerHTML = html;
+
+}
 function loginAddToLocalStorage(email, localId) {
     const obj = {
         email,

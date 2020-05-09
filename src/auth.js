@@ -58,7 +58,6 @@ function generateHTMLNameLogin(list, btn,  textLogin) {
     const html = isEmptyObject(textLogin)
         ? '<p class="error pos">Вы не авторизовались</p>'
         :  `<div>${textLogin.email}</div>`;
-
     list.innerHTML = html;
 
 }

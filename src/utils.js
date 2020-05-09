@@ -10,6 +10,5 @@ export function createModal(title, content) {
         <h1>${title}</h1> 
         <div class="modal-content">${content}</div>
     `;
-
     mui.overlay('on', modal);
 }

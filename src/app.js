@@ -11,7 +11,6 @@ const submitBtn = form.querySelector('#submit');
 window.addEventListener('load', Question.renderList);
 // Для отображения labela авторизации
 window.addEventListener('load', renderNameLogin);
-
 form.addEventListener('submit', submitFormHadler);
 
 modalBtn.addEventListener('click', openModal);
